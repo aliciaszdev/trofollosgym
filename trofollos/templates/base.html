@@ -1,0 +1,9 @@
+﻿<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}TrofollosGym · REVENGE{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}"></head>
+<body><header><a class="brand" href="/">Trofollos<span>Gym</span></a><span>REVENGE · Colmenar Viejo</span>{% if user %}<a href="/profile">{{ user.username }} · {{ user.role }}</a>{% endif %}</header>
+{% if user %}<nav class="topnav" aria-label="Áreas"><a href="{{ training_url }}">Mi entrenamiento</a>{% if user.role=='TOP' %}<a href="{{ admin_url }}">Administración</a><a href="/requests">Solicitudes de máquinas</a>{% endif %}</nav>{% endif %}
+<main>{% block content %}{% endblock %}
+{% if user %}<form class="logout" method="post" action="/logout"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="secondary">Cerrar sesión</button></form>{% endif %}</main>
+<footer>TrofollosGym · Catálogo y planificación · Conexión necesaria</footer>
+{% if user %}<nav class="bottomnav" aria-label="Navegación principal"><a href="/today" {% if request.path in ['/','/today'] %}aria-current="page"{% endif %}>Hoy</a><a href="/routines" {% if request.path.startswith('/routines') %}aria-current="page"{% endif %}>Rutinas</a><a href="/catalog" {% if request.path.startswith('/catalog') or request.path.startswith('/machines') or request.path.startswith('/exercises') %}aria-current="page"{% endif %}>Catálogo</a><a href="/planning" {% if request.path=='/planning' %}aria-current="page"{% endif %}>Mi plan</a></nav>{% endif %}
+</body></html>
